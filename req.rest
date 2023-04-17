@@ -1,0 +1,14 @@
+# POST http://localhost:5000/register
+# Content-Type: application/json
+
+# {
+#     "id_user": "321",
+#     "first_name": "Fariz",
+#     "last_name": "Muhammad",
+#     "address": "420 Leroy Alley",
+#     "contact": "+69 247 964 3279",
+#     "email": "fariz@flavors.me",
+#     "gender": "Gay"
+# }
+
+GET http://localhost:5000/product
