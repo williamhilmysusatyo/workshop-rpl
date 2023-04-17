@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = "linux-musl-openssl-3.0.x"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model cust_info {
+  id_user     String        @id @db.VarChar(7)
+  first_name  String?       @db.VarChar(10)
+  last_name   String?       @db.VarChar(13)
+  address     String?       @db.VarChar(24)
+  contact     String?       @db.VarChar(17)
+  email       String?       @db.VarChar(33)
+  gender      String?       @db.VarChar(11)
+  transaction transaction[]
+}
+
+model product_info {
+  car_id      String        @id @db.VarChar(6)
+  car_name    String?       @db.VarChar(13)
+  car_model   String?       @db.VarChar(20)
+  car_vin     String?       @db.VarChar(17)
+  price       String?       @db.VarChar(9)
+  transaction transaction[]
+}
+
+model seller_info {
+  id_seller   String        @id @db.VarChar(9)
+  seller_name String?       @db.VarChar(23)
+  contact     String?       @db.VarChar(17)
+  transaction transaction[]
+}
+
+model transaction {
+  transaction_id   String        @id @db.VarChar(14)
+  car_id           String?       @db.VarChar(6)
+  transaction_date String?       @db.VarChar(16)
+  id_seller        String?       @db.VarChar(9)
+  id_user          String?       @db.VarChar(7)
+  seller_info      seller_info?  @relation(fields: [id_seller], references: [id_seller], onDelete: Cascade, map: "transaction_ibfk_1")
+  product_info     product_info? @relation(fields: [car_id], references: [car_id], onDelete: Cascade, map: "transaction_ibfk_2")
+  cust_info        cust_info?    @relation(fields: [id_user], references: [id_user], onDelete: Cascade, map: "transaction_ibfk_3")
+
+  @@index([car_id], map: "car_id")
+  @@index([id_seller], map: "id_seller")
+  @@index([id_user], map: "id_user")
+}
